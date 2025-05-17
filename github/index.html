@@ -1,0 +1,297 @@
+</body>
+</html><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Validación de autenticidad del Permiso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .header img {
+            width: 60px;
+            margin-right: 15px;
+        }
+        .header-text {
+            font-size: 1.15em;
+            color: #555;
+        }
+        h1 {
+            font-size: 2em;
+            color: #2d3577;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+        .steps {
+            display: flex;
+            margin-bottom: 30px;
+        }
+        .step {
+            flex: 1;
+            padding: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.15em;
+            color: #fff;
+            background: #6c6ea0;
+            border-radius: 5px 5px 0 0;
+        }
+        .step.inactive {
+            background: #e5e7ee;
+            color: #444;
+        }
+        .step.active {
+            background: #6c6ea0;
+            color: #fff;
+        }
+        .step span {
+            display: block;
+            font-size: 0.95em;
+            font-weight: normal;
+        }
+        .form {
+            background: #f9f9f9;
+            padding: 30px 30px 20px 30px;
+            border-radius: 0 0 8px 8px;
+            border: 1px solid #e5e7ee;
+            border-top: none;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .form-step2 {
+            display: none;
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 0 0 8px 8px;
+            border: 1px solid #e5e7ee;
+            border-top: none;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 1.1em;
+        }
+        .form input[type="text"],
+        .form input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form input[type="date"] {
+            font-family: Arial, sans-serif;
+        }
+        .form .info {
+            display: inline-block;
+            margin-left: 10px;
+            color: #6c6ea0;
+            cursor: pointer;
+            font-size: 1.2em;
+            vertical-align: middle;
+        }
+        .form .small {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 18px;
+        }
+        .form button {
+            background: #bfc2e2;
+            color: #222;
+            font-size: 1.15em;
+            padding: 10px 35px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s;
+        }
+        .form button:hover {
+            background: #6c6ea0;
+            color: #fff;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .info-table td {
+            padding: 10px;
+            border-bottom: 1px solid #e5e7ee;
+        }
+        .info-table td:first-child {
+            font-weight: bold;
+            width: 40%;
+        }
+        .pdf-button {
+            background: #2d3577;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+        .pdf-button:hover {
+            background: #1a2160;
+        }
+        .warning {
+            color: #d9534f;
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f9f2f2;
+            border-radius: 5px;
+        }
+        @media (max-width: 600px) {
+            .container, .form, .form-step2 {
+                padding: 10px;
+            }
+            .steps {
+                flex-direction: column;
+            }
+            .step {
+                border-radius: 5px 5px 0 0;
+            }
+            .info-table td:first-child {
+                width: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="carro.png" alt="Carro" />
+            <div class="header-text">Trámites en línea de Control Vehicular</div>
+        </div>
+        <h1>Validación de autenticidad del Permiso</h1>
+        <div class="steps">
+            <div id="step1" class="step active">Paso 1<br><span>Ingresar Información</span></div>
+            <div id="step2" class="step inactive">Paso 2<br><span>Consulta de Información</span></div>
+        </div>
+        
+        <!-- Formulario del Paso 1 -->
+        <div id="form-step1" class="form">
+            <div class="small">Los datos marcados con * son obligatorios.</div>
+            <form id="validation-form">
+                <label for="folio">No. De Folio del Permiso: *</label>
+                <input type="text" id="folio" name="folio" required>
+                <span class="info" title="Número de folio del permiso">?</span>
+                <br>
+                <label for="niv">NIV: *</label>
+                <input type="text" id="niv" name="niv" required>
+                <span class="info" title="Número de Identificación Vehicular">?</span>
+                <br>
+                <label for="fecha">Fecha de expedición: *</label>
+                <input type="date" id="fecha" name="fecha" placeholder="DD/MM/YYYY" required>
+                <span class="info" title="Fecha de expedición del permiso">?</span>
+                <br>
+                <button type="submit">Aceptar</button>
+            </form>
+        </div>
+        
+        <!-- Formulario del Paso 2 (oculto inicialmente) -->
+        <div id="form-step2" class="form-step2">
+            <h3>Consulta de Información</h3>
+            <table class="info-table">
+                <tr>
+                    <td>N.º de folio del permiso:</td>
+                    <td id="display-folio">7490</td>
+                </tr>
+                <tr>
+                    <td>Marca:</td>
+                    <td id="display-marca">Vento</td>
+                </tr>
+                <tr>
+                    <td>Tipo:</td>
+                    <td id="display-tipo">NITROX 200</td>
+                </tr>
+                <tr>
+                    <td>Modelo:</td>
+                    <td id="display-modelo">2022</td>
+                </tr>
+                <tr>
+                    <td>Número de motor:</td>
+                    <td id="display-motor">163FMLNA057164</td>
+                </tr>
+                <tr>
+                    <td>NVI:</td>
+                    <td id="display-nvi">3MUBHFBD9N1142358</td>
+                </tr>
+                <tr>
+                    <td>Color:</td>
+                    <td id="display-color">Naranja/negro</td>
+                </tr>
+                <tr>
+                    <td>Fecha de expedición:</td>
+                    <td id="display-fecha-exp">27/01/2025</td>
+                </tr>
+                <tr>
+                    <td>Fecha de caducidad:</td>
+                    <td id="display-fecha-cad">25/02/2025</td>
+                </tr>
+                <tr>
+                    <td>Lugar de expedición:</td>
+                    <td id="display-lugar">ESTADO DE MÉXICO</td>
+                </tr>
+            </table>
+            
+            <div class="warning">LOS VEHÍCULOS DE CARGA Y AUTOBUSES CIRCULAN VACÍOS</div>
+            
+            <button class="pdf-button">Generar PDF</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('validation-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Obtener los valores del formulario
+            const folio = document.getElementById('folio').value;
+            const niv = document.getElementById('niv').value;
+            const fecha = document.getElementById('fecha').value;
+            
+            // Aquí normalmente harías una validación o consulta a una API
+            // Por ahora simularemos la respuesta con datos fijos como en la imagen
+            
+            // Actualizar los datos en el paso 2 (en un caso real, estos vendrían de una API)
+            document.getElementById('display-folio').textContent = folio || '7490';
+            // Los demás campos los dejamos con los valores de ejemplo de la imagen
+            
+            // Cambiar los pasos activos
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step1').classList.add('inactive');
+            document.getElementById('step2').classList.remove('inactive');
+            document.getElementById('step2').classList.add('active');
+            
+            // Mostrar el paso 2 y ocultar el paso 1
+            document.getElementById('form-step1').style.display = 'none';
+            document.getElementById('form-step2').style.display = 'block';
+        });
+        
+        // Función para generar PDF (simulada)
+        document.querySelector('.pdf-button').addEventListener('click', function() {
+            alert('Generando PDF... (esto es una simulación)');
+            // En una implementación real, aquí iría el código para generar el PDF
+        });
+    </script>
+</body>
+</html>
